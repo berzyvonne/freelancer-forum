@@ -1,14 +1,17 @@
 const freelancers = [
-  { name: "Dr. Slice", price: 25, occupation: "gardener" },
-  { name: "Dr. Pressure", price: 51, occupation: "programmer" },
-  { name: "Prof. Possibility", price: 43, occupation: "teacher" },
-  { name: "Prof. Prism", price: 81, occupation: "teacher" },
-  { name: "Dr. Impulse", price: 43, occupation: "teacher" },
-  { name: "Prof. Spark", price: 76, occupation: "programmer" },
-  { name: "Dr. Wire", price: 47, occupation: "teacher" },
-  { name: "Prof. Goose", price: 72, occupation: "driver" },
+  { name: "Alice", price: 30, occupation: "Writer" },
+  { name: "Bob", price: 50, occupation: "Teacher" },
 ];
-const maxFreeLancers = 8;
+
+const names = ["Carol", "Doug", "Steve"];
+const occupations = ["Programmer", "Musician", "Painter"];
+const prices = [70, 30, 25];
+
+function getRandom(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+const maxFreeLancers = 10;
 
 function render() {
   const freeLancerTable = freelancers.map((lancer) => {
@@ -23,22 +26,36 @@ function render() {
   freeLancerTable.forEach((element) => {
     container.appendChild(element);
   });
-}
 
+  const totalPrices = freelancers.reduce(
+    (accumulator, current) => accumulator + current.price,
+    0
+  );
+  const averagePrice = totalPrices / freelancers.length;
+
+  const averageElement = document.createElement("li");
+  averageElement.textContent = `Average Price: $${averagePrice.toFixed(2)}`;
+  container.appendChild(averageElement);
+}
 function addLancers() {
-  const randomLancerIndex = Math.floor(Math.random() * freelancers.length);
-  const randomLancer = freelancers[randomLancerIndex];
-  freelancers.push({
-    name: randomLancer.name,
-    price: randomLancer.price,
-    occupation: randomLancer.occupation,
-  });
+  const randomName = names[getRandom(0, names.length)];
+  const randomOccupation = occupations[getRandom(0, occupations.length)];
+  const randomPrice = prices[getRandom(0, prices.length)];
+  const newFreelancer = {
+    name: randomName,
+    occupation: randomOccupation,
+    price: randomPrice,
+  };
+
+  freelancers.push(newFreelancer);
+
   render();
+
   if (freelancers.length >= maxFreeLancers) {
     clearInterval(addfreeLancers);
   }
 }
 
-const addfreeLancers = setInterval(addLancers, 1000);
+const addfreeLancers = setInterval(addLancers, 5000);
 
 render();
